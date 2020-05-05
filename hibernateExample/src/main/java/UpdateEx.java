@@ -19,7 +19,8 @@ public class UpdateEx {
 
 		System.out.println("Command successfully executed....");
 		System.out.println("Numer of records effected due to update query" + res);
-
+		
+		System.out.println("Test By Kalyani...");
 		session.close();
 		factory.close();
 	}
