@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3310/hibernate</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property>
+
+
+
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+
+
+		<!-- <mapping class="com.rs.hibernate.onetomanyannotations.Vendor" /> -->
+		<!-- <mapping -->
+		<!-- class="com.rs.hibernate.onetomanyannotations.Customers" /> -->
+		<!-- <mapping class="com.hibernate.manytooneannotations.Vendor" /> -->
+		<!-- <mapping class="com.hibernate.manytooneannotations.Customers" /> -->
+		<mapping
+			class="com.rs.hibernate.manytomanyannotations.Categories" />
+		<mapping class="com.rs.hibernate.manytomanyannotations.Item" />
+		<!-- <mapping class="com.rs.hibernate.onetooneannotations.Address" /> -->
+		<!--<mapping class="com.rs.hibernate.onetooneannotations.Student" /> -->
+
+
+
+
+		<mapping resource="com/mkyong/stock/Stock.hbm.xml" /> 
+
+		 <mapping resource="com/mkyong/stock/Product.hbm.xml"></mapping> 
+
+		<!-- <mapping -->
+		<!-- resource="com/rs/hibernate/onetomany/Customer.hbm.xml" /> -->
+		<!-- <mapping resource="com/rs/hibernate/onetomany/Vendor.hbm.xml" /> -->
+
+		<!-- <mapping -->
+		<!-- resource="com/rs/hibernate/manytomany/Student.hbm.xml"></mapping> -->
+		<!-- <mapping resource="com/rs/hibernate/manytomany/Course.hbm.xml"></mapping> -->
+
+
+		<!-- <mapping resource="com/rs/hibernate/onetoone/Student.hbm.xml"></mapping> -->
+		<!-- <mapping resource="com/rs/hibernate/onetoone/Address.hbm.xml"></mapping> -->
+
+
+		<!-- <mapping -->
+		<!-- resource="com/rs/hibernate/manytoone/Customer.hbm.xml"></mapping> -->
+		<!-- <mapping resource="com/rs/hibernate/manytoone/Vendor.hbm.xml"></mapping> -->
+	</session-factory>
+</hibernate-configuration>

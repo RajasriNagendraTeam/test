@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name="str.Items" table="items">
+
+<id name="itemId" />
+<property name="itemName" length="10"/>
+<property name="itemPrice"/>
+
+
+
+<!-- <id name="productId" column="pid"> -->
+
+<!-- <generator> -->
+
+<!-- <param name="table">your table name</param> -->
+<!-- <param name="column">your column name </param> -->
+
+<!-- </generator> -->
+
+
+<!-- </id> -->
+<!-- <id name="productId" column="pid"> -->
+<!-- <generator> -->
+<!-- <param name="sequence">MySequence</param> -->
+<!-- </genetator> -->
+<!-- </id> -->
+
+</class>
+</hibernate-mapping>
+
+
