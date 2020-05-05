@@ -19,28 +19,6 @@ public class HQLExamples {
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 
-/* Selecting all objects(records) start_______________________ */
-
-
-	/*
-
-		Query qry = session.createQuery("from Product p");
-
-		List l =qry.list();
-		System.out.println("Total Number Of Records : "+l.size());
-		Iterator it = l.iterator();
-
-		while(it.hasNext())
-		{
-			Object o = (Object)it.next();
-			Product p = (Product)o;
-			System.out.println("Product id : "+p.getProductId());
-			System.out.println("Product Name : "+p.getProName());
-			System.out.println("Product Price : "+p.getPrice());
-			System.out.println("----------------------");
-		}		
-
-	*/	
 
 /* Selecting all objects(records) end________________________ */		
 

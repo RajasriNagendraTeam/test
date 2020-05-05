@@ -16,25 +16,7 @@ public class ClientForSave_2 {
 		SessionFactory factory = cfg.buildSessionFactory();
 		Session session = factory.openSession();
 
-		/*
-		 * Using label...............
-		 * 
-		 * 
-		 * Query qry = session.createQuery("from Product p where p.productId= :java4s");
-		 * qry.setParameter("java4s",105);
-		 * 
-		 * List l =qry.list();
-		 * System.out.println("Total Number Of Records : "+l.size()); Iterator it =
-		 * l.iterator();
-		 * 
-		 * while(it.hasNext()) { Object o = (Object) it.next(); Product p = (Product)o;
-		 * System.out.println("Product Name : "+p.getProName());
-		 * System.out.println("Product Price : "+p.getPrice());
-		 * System.out.println("---------------------------");
-		 * 
-		 * }
-		 * 
-		 */
+	
 
 		/* Using Question Mark */
 
