@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +26,7 @@ import com.rs.fer.response.EditExpenseResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
+import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
 import com.rs.fer.response.ResetPasswordResponse;
@@ -122,6 +122,16 @@ public class FERController {
 			return new ResetPasswordResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
 		} else {
 			return ferService.resetPassword(userId, currentPassword, newPassword);
+		}
+	}
+
+	@GetMapping("/user/{id}")
+	public GetUserResponse getUser(@PathVariable("id") Integer id) {
+		Set<String> errorMessages = validationUtil.validateGetUserRequest(id);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new GetUserResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.getUser(id);
 		}
 	}
 

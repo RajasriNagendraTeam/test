@@ -93,4 +93,9 @@ public class ValidationUtilImpl implements ValidationUtil {
 		return validateGetExpenseRequest(expenseId);
 	}
 
+	@Override
+	public Set<String> validateGetUserRequest(int userId) {
+		return validateGetExpensesRequest(userId);
+	}
+
 }

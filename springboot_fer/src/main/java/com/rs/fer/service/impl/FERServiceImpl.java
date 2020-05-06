@@ -20,6 +20,7 @@ import com.rs.fer.response.EditExpenseResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
+import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
 import com.rs.fer.response.ResetPasswordResponse;
@@ -239,6 +240,23 @@ public class FERServiceImpl implements FERService {
 
 		return response;
 
+	}
+
+	@Override
+	public GetUserResponse getUser(int userid) {
+		GetUserResponse response = new GetUserResponse();
+		Optional<User> userObj = userRepository.findById(userid);
+		if (userObj.isPresent()) {
+			response.setUser(userObj.get());
+			response.setStatusCode("000");
+			response.setStatus(HttpStatus.OK);
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("No User Found for the given userid");
+		}
+
+		return response;
 	}
 
 }

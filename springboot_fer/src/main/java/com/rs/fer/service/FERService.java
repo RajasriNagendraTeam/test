@@ -8,6 +8,7 @@ import com.rs.fer.response.EditExpenseResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
+import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
 import com.rs.fer.response.ResetPasswordResponse;
@@ -30,4 +31,6 @@ public interface FERService {
 	ResetPasswordResponse resetPassword(int userid, String currentPassword, String newPassword);
 
 	DeleteExpenseResponse deleteExpense(Integer expensseId);
+
+	GetUserResponse getUser(int userid);
 }
