@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.rs.hibernate.onetomany.Vendor" table="vendor_1tom">
+
+		<id name="vendorId" column="vendid" />
+		<property name="vendorName" column="vendname" length="10" />
+
+		<set name="customers" cascade="all" lazy="false">
+			<key column="vendorId" />
+			<one-to-many class="com.rs.hibernate.onetomany.Customer" />
+		</set>
+
+	</class>
+</hibernate-mapping>

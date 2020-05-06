@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 26 April 2011 11:37:37 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mkyong.stock.Stock" table="stock">
+        <id name="stockId" column="STOCK_ID" >
+            <generator class="assigned" />
+        </id>
+        <property name="stockCode"/>
+        <property name="stockName" column="STOCK_NAME"/>
+    </class>
+</hibernate-mapping>
+
+
+
+
+
+
+
+<!-- <id name="productId" column="pid"> -->
+
+<!-- <generator> -->
+
+<!-- <param name="table">your table name</param> -->
+<!-- <param name="column">your column name </param> -->
+
+<!-- </generator> -->
+
+<!-- </id> -->
