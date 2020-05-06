@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,6 +35,7 @@ import com.rs.fer.response.UpdateUserResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
 
+
 @RestController
 @RequestMapping("/api")
 public class FERController {
@@ -51,7 +51,7 @@ public class FERController {
 	private Integer expensseId;
 
 	@PostMapping("/register")
-	public RegistrationResponse userRegistration(@Valid @ModelAttribute RegistrationVO registrationVO) {
+	public RegistrationResponse userRegistration(@Valid @RequestBody RegistrationVO registrationVO) {
 
 		Set<String> errorMessages = validationUtil.validateRegistrationRequest(registrationVO);
 		if (!CollectionUtils.isEmpty(errorMessages)) {
@@ -67,12 +67,12 @@ public class FERController {
 	}
 
 	@PostMapping("/expense")
-	public AddExpenseResponse addExpense(@Valid @ModelAttribute Expense expense) {
+	public AddExpenseResponse addExpense(@Valid @RequestBody Expense expense) {
 		return ferService.addExpense(expense);
 	}
 
 	@PutMapping("/expense/{id}")
-	public EditExpenseResponse editExpense(@PathVariable("id") Integer Id, @Valid @ModelAttribute Expense expense) {
+	public EditExpenseResponse editExpense(@PathVariable("id") Integer Id, @Valid @RequestBody Expense expense) {
 		return ferService.editExpense(expense);
 	}
 
@@ -148,45 +148,5 @@ public class FERController {
 		}
 	}
 
-	/*
-	 * @PutMapping("/reset/{id}") public User reset(@PathVariable(value = "id")
-	 * Integer id, @Valid @RequestBody User u) { User user =
-	 * userRepository.findById(id).orElseThrow(() -> new
-	 * ResourceNotFoundException("User", "id", id));
-	 * user.setUserName(u.getUserName()); user.setPassword(u.getPassword()); return
-	 * userRepository.save(user); }
-	 * 
-	 * @GetMapping("/getExpense/{expenseId}") public Expense
-	 * getExpense(@PathVariable(value = "expenseId") int expenseId) { return
-	 * expenseRepository.findById(expenseId) .orElseThrow(() -> new
-	 * ResourceNotFoundException("Expense", "expenseId", expenseId)); }
-	 * 
-	 * @GetMapping("/getExpenses/{userId}") public List<Expense>
-	 * getExpenses(@PathVariable(value = "userId") Iterable<Integer> userId) {
-	 * return (List<Expense>) expenseRepository.findAllById(userId); }
-	 * 
-	 * @GetMapping("/getUser/{id}") public User getUser(@PathVariable(value = "id")
-	 * Integer id) { return userRepository.findById(id).orElseThrow(() -> new
-	 * ResourceNotFoundException("User", "id", id)); }
-	 * 
-	 * @GetMapping("/updateUser/{id}") public User updateUser(@PathVariable(value =
-	 * "id") Integer id, @Valid @RequestBody User user) {
-	 * 
-	 * User u = userRepository.findById(id) .orElseThrow(() -> new
-	 * ResourceNotFoundException("User", "id", id));
-	 * u.setFirstName(user.getFirstName()); u.setMiddleName(user.getMiddleName());
-	 * u.setLastName(user.getLastName()); u.setEmail(user.getEmail());
-	 * u.setMobile(user.getMobile()); u.getUserName();
-	 * u.setAddress(user.getAddress()); return userRepository.save(u); }
-	 * 
-	 * @PutMapping("/expenseReport") public List<Expense>
-	 * expenseReport(@PathVariable int userId, String
-	 * 
-	 * @Valid @RequestBody Expense exp) { List<Expense> expense=(List<Expense>)
-	 * expenseRepository.findById(userId) .orElseThrow(() -> new
-	 * ResourceNotFoundException("expenseType", "fromDate", "toDate"));
-	 * expense.set(0,expenseType); expense.set(1, fromDate); expense.set(2, toDate);
-	 * }
-	 */
-
+	
 }
