@@ -16,11 +16,11 @@ import com.rs.fer.repository.UserRepository;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.response.AddExpenseResponse;
 import com.rs.fer.response.EditExpenseResponse;
+import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
-import com.rs.fer.response.ReportResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.util.DateUtil;
 import com.rs.fer.util.FERUtil;
@@ -173,24 +173,20 @@ public class FERServiceImpl implements FERService {
 	}
 
 	@Override
-	public ReportResponse expenseReport(String type, String fromdate,String toDate) {
-		ReportResponse response = new ReportResponse();
-		Expense exp=new Expense();
-		List<Expense> obj = expenseRepository.findAllByTypeAndDateBetween(type,fromdate, toDate);
-		if (!obj.isEmpty()) {
-			Iterator<Expense> iterator=obj.iterator();
-			while(iterator.hasNext()) {
-			Expense ex=iterator.next();
-				obj.add(ex);
-			}
-			response.setExpense(obj.get(0));
+	public ExpenseReportResponse expenseReport(int userid, String type, String fromdate, String toDate) {
+		ExpenseReportResponse response = new ExpenseReportResponse();
+		Expense exp = new Expense();
+		List<Expense> expenses = expenseRepository.findByIdAndTypeAndDateBetween(userid, type, fromdate, toDate);
+		if (!expenses.isEmpty()) {
+
+			response.setExpenses(expenses);
 			response.setStatusCode("000");
 			response.setStatus(HttpStatus.OK);
 
 		} else {
 			response.setStatusCode("001");
 			response.setStatus(HttpStatus.PRECONDITION_FAILED);
-			response.setErrorMessage("Invalid ... try again");
+			response.setErrorMessage("No expenses found for the given input..");
 		}
 
 		return response;

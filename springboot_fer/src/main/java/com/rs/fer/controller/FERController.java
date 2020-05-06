@@ -28,7 +28,7 @@ import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
-import com.rs.fer.response.ReportResponse;
+import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
 
@@ -90,10 +90,15 @@ public class FERController {
 		}
 	}
 
-	@PutMapping("/expenseReport")
-	public ReportResponse expenseReport(@RequestParam String type, @RequestParam String fromDate,
-			@RequestParam String toDate) {
-		return ferService.expenseReport(type, fromDate, toDate);
+	@GetMapping("/{userId}/expense/report")
+	public ExpenseReportResponse expenseReport(@PathVariable("userId") Integer userId, @RequestParam String type,
+			@RequestParam String fromDate, @RequestParam String toDate) {
+		Set<String> errorMessages = validationUtil.validateExpenseReportRequest(userId, type, fromDate, toDate);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new ExpenseReportResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.expenseReport(userId,type, fromDate, toDate);
+		}
 	}
 
 	@DeleteMapping("/expense/{expenseId}")
@@ -104,48 +109,45 @@ public class FERController {
 		return ResponseEntity.ok().build();
 	}
 
-	/*@PutMapping("/reset/{id}")
-	public User reset(@PathVariable(value = "id") Integer id, @Valid @RequestBody User u) {
-		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-		user.setUserName(u.getUserName());
-		user.setPassword(u.getPassword());
-		return userRepository.save(user);
-	}
-
-	@GetMapping("/getExpense/{expenseId}")
-	public Expense getExpense(@PathVariable(value = "expenseId") int expenseId) {
-		return expenseRepository.findById(expenseId)
-				.orElseThrow(() -> new ResourceNotFoundException("Expense", "expenseId", expenseId));
-	}
-
-	@GetMapping("/getExpenses/{userId}")
-	public List<Expense> getExpenses(@PathVariable(value = "userId") Iterable<Integer> userId) {
-		return (List<Expense>) expenseRepository.findAllById(userId);
-	}
-
-	@GetMapping("/getUser/{id}")
-	public User getUser(@PathVariable(value = "id") Integer id) {
-		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-	}
-
-	@GetMapping("/updateUser/{id}") public User updateUser(@PathVariable(value =
-	  "id") Integer id, @Valid @RequestBody User user) {
-	  
-	  User u = userRepository.findById(id) .orElseThrow(() -> new
-	  ResourceNotFoundException("User", "id", id));
-	  u.setFirstName(user.getFirstName()); u.setMiddleName(user.getMiddleName());
-	  u.setLastName(user.getLastName()); u.setEmail(user.getEmail());
-	  u.setMobile(user.getMobile()); u.getUserName();
-	  u.setAddress(user.getAddress()); return userRepository.save(u); }
-
-	@PutMapping("/expenseReport") public List<Expense>
-	  expenseReport(@PathVariable int userId, String
-	  
-	  @Valid @RequestBody Expense exp) { List<Expense> expense=(List<Expense>)
-	  expenseRepository.findById(userId) .orElseThrow(() -> new
-	  ResourceNotFoundException("expenseType", "fromDate", "toDate"));
-	  expense.set(0,expenseType); expense.set(1, fromDate); expense.set(2, toDate);
-	 }*/
-	 
+	/*
+	 * @PutMapping("/reset/{id}") public User reset(@PathVariable(value = "id")
+	 * Integer id, @Valid @RequestBody User u) { User user =
+	 * userRepository.findById(id).orElseThrow(() -> new
+	 * ResourceNotFoundException("User", "id", id));
+	 * user.setUserName(u.getUserName()); user.setPassword(u.getPassword()); return
+	 * userRepository.save(user); }
+	 * 
+	 * @GetMapping("/getExpense/{expenseId}") public Expense
+	 * getExpense(@PathVariable(value = "expenseId") int expenseId) { return
+	 * expenseRepository.findById(expenseId) .orElseThrow(() -> new
+	 * ResourceNotFoundException("Expense", "expenseId", expenseId)); }
+	 * 
+	 * @GetMapping("/getExpenses/{userId}") public List<Expense>
+	 * getExpenses(@PathVariable(value = "userId") Iterable<Integer> userId) {
+	 * return (List<Expense>) expenseRepository.findAllById(userId); }
+	 * 
+	 * @GetMapping("/getUser/{id}") public User getUser(@PathVariable(value = "id")
+	 * Integer id) { return userRepository.findById(id).orElseThrow(() -> new
+	 * ResourceNotFoundException("User", "id", id)); }
+	 * 
+	 * @GetMapping("/updateUser/{id}") public User updateUser(@PathVariable(value =
+	 * "id") Integer id, @Valid @RequestBody User user) {
+	 * 
+	 * User u = userRepository.findById(id) .orElseThrow(() -> new
+	 * ResourceNotFoundException("User", "id", id));
+	 * u.setFirstName(user.getFirstName()); u.setMiddleName(user.getMiddleName());
+	 * u.setLastName(user.getLastName()); u.setEmail(user.getEmail());
+	 * u.setMobile(user.getMobile()); u.getUserName();
+	 * u.setAddress(user.getAddress()); return userRepository.save(u); }
+	 * 
+	 * @PutMapping("/expenseReport") public List<Expense>
+	 * expenseReport(@PathVariable int userId, String
+	 * 
+	 * @Valid @RequestBody Expense exp) { List<Expense> expense=(List<Expense>)
+	 * expenseRepository.findById(userId) .orElseThrow(() -> new
+	 * ResourceNotFoundException("expenseType", "fromDate", "toDate"));
+	 * expense.set(0,expenseType); expense.set(1, fromDate); expense.set(2, toDate);
+	 * }
+	 */
 
 }

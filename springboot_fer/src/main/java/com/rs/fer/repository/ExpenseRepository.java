@@ -12,6 +12,6 @@ import com.rs.fer.model.Expense;
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
 	List<Expense> findByUserId(Integer userId);
-	List<Expense> findAllByTypeAndDateBetween(String type,String fromDate,String toDate);
+	List<Expense> findByIdAndTypeAndDateBetween(int userId,String type,String fromDate,String toDate);
 	
 }

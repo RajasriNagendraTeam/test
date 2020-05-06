@@ -8,7 +8,7 @@ import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
-import com.rs.fer.response.ReportResponse;
+import com.rs.fer.response.ExpenseReportResponse;
 
 public interface FERService {
 	RegistrationResponse registration(RegistrationVO registrationVO);
@@ -23,7 +23,7 @@ public interface FERService {
 	
 	GetExpensesResponse getExpenses(Integer userId);
 	
-	ReportResponse expenseReport(String type,String fromdate,String toDate);
+	ExpenseReportResponse expenseReport( int userid,String type,String fromdate,String toDate);
 }
 
 	

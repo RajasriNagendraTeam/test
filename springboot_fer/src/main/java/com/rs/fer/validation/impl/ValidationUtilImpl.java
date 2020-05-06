@@ -41,9 +41,10 @@ public class ValidationUtilImpl implements ValidationUtil {
 		Set<String> errorMessages = new HashSet<String>();
 
 		addError(errorMessages, expenseId, "Please enter valid expenseId");
-		
+
 		return errorMessages;
 	}
+
 	public static Set<String> addError(Set<String> errorMessages, int value, String errorMessage) {
 
 		if (value <= 0) {
@@ -58,9 +59,22 @@ public class ValidationUtilImpl implements ValidationUtil {
 		Set<String> errorMessages = new HashSet<String>();
 
 		addError(errorMessages, userId, "Please enter valid userId");
-		
+
 		return errorMessages;
 	}
-	
+
+	@Override
+	public Set<String> validateExpenseReportRequest(int userId, String type, String fromdate, String toDate) {
+		Set<String> errorMessages = new HashSet<String>();
+
+		addError(errorMessages, userId, "Please enter userid");
+		addError(errorMessages, type, "Please enter type");
+
+		addError(errorMessages, fromdate, "Please enter fromdate");
+		addError(errorMessages, toDate, "Please enter toDate");
+
+		return errorMessages;
+
+	}
 
 }
