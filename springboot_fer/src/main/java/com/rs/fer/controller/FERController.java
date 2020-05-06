@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,7 +36,6 @@ import com.rs.fer.response.UpdateUserResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
 
-
 @RestController
 @RequestMapping("/api")
 public class FERController {
@@ -51,7 +51,7 @@ public class FERController {
 	private Integer expensseId;
 
 	@PostMapping("/register")
-	public RegistrationResponse userRegistration(@Valid @RequestBody RegistrationVO registrationVO) {
+	public RegistrationResponse userRegistration(@Valid @ModelAttribute RegistrationVO registrationVO) {
 
 		Set<String> errorMessages = validationUtil.validateRegistrationRequest(registrationVO);
 		if (!CollectionUtils.isEmpty(errorMessages)) {
@@ -67,12 +67,12 @@ public class FERController {
 	}
 
 	@PostMapping("/expense")
-	public AddExpenseResponse addExpense(@Valid @RequestBody Expense expense) {
+	public AddExpenseResponse addExpense(@Valid @ModelAttribute Expense expense) {
 		return ferService.addExpense(expense);
 	}
 
 	@PutMapping("/expense/{id}")
-	public EditExpenseResponse editExpense(@PathVariable("id") Integer Id, @Valid @RequestBody Expense expense) {
+	public EditExpenseResponse editExpense(@PathVariable("id") Integer Id, @Valid @ModelAttribute Expense expense) {
 		return ferService.editExpense(expense);
 	}
 
@@ -107,9 +107,9 @@ public class FERController {
 		}
 	}
 
-	@DeleteMapping("/expense/{expenseId}")
-	public DeleteExpenseResponse deleteExpense(@PathVariable(value = "expenseId") int expenseId) {
-		Set<String> errorMessages = validationUtil.validateDeleteExpenseRequest(expenseId);
+	@DeleteMapping("/expense/{expensseId}")
+	public DeleteExpenseResponse deleteExpense(@PathVariable(value = "expensseId") int expensseId) {
+		Set<String> errorMessages = validationUtil.validateDeleteExpenseRequest(expensseId);
 		if (!CollectionUtils.isEmpty(errorMessages)) {
 			return new DeleteExpenseResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
 		} else {
@@ -137,9 +137,9 @@ public class FERController {
 			return ferService.getUser(id);
 		}
 	}
-	
-	@PutMapping("/user")
-	public UpdateUserResponse update(@RequestBody User user) {
+
+	@PutMapping("/user/{id}")
+	public UpdateUserResponse update(@ModelAttribute User user) {
 		Set<String> errorMessages = validationUtil.validateUpdateUserRequest(user);
 		if (!CollectionUtils.isEmpty(errorMessages)) {
 			return new UpdateUserResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
@@ -148,5 +148,4 @@ public class FERController {
 		}
 	}
 
-	
 }

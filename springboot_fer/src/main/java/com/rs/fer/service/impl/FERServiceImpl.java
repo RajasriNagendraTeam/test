@@ -176,10 +176,10 @@ public class FERServiceImpl implements FERService {
 	}
 
 	@Override
-	public ExpenseReportResponse expenseReport(int userid, String type, String fromdate, String toDate) {
+	public ExpenseReportResponse expenseReport(int userId, String type, String fromDate, String toDate) {
 		ExpenseReportResponse response = new ExpenseReportResponse();
 		Expense exp = new Expense();
-		List<Expense> expenses = expenseRepository.findByIdAndTypeAndDateBetween(userid, type, fromdate, toDate);
+		List<Expense> expenses = expenseRepository.findByuserIdAndTypeAndDateBetween(userId, type, fromDate, toDate);
 		if (!expenses.isEmpty()) {
 
 			response.setExpenses(expenses);

@@ -28,7 +28,7 @@ public interface FERService {
 
 	GetExpensesResponse getExpenses(Integer userId);
 
-	ExpenseReportResponse expenseReport(int userid, String type, String fromdate, String toDate);
+	ExpenseReportResponse expenseReport(int userId, String type, String fromDate, String toDate);
 
 	ResetPasswordResponse resetPassword(int userid, String currentPassword, String newPassword);
 

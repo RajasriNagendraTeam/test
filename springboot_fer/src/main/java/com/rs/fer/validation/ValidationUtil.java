@@ -12,7 +12,7 @@ public interface ValidationUtil {
 
 	Set<String> validateGetExpensesRequest(int userId);
 
-	Set<String> validateExpenseReportRequest(int userId, String type, String fromdate, String toDate);
+	Set<String> validateExpenseReportRequest(int userId, String type, String fromDate, String toDate);
 
 	Set<String> validateResetPasswordRequest(int userId, String currentPassword, String newPassword);
 
