@@ -15,12 +15,15 @@ import com.rs.fer.repository.ExpenseRepository;
 import com.rs.fer.repository.UserRepository;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.response.AddExpenseResponse;
+import com.rs.fer.response.DeleteExpenseResponse;
 import com.rs.fer.response.EditExpenseResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
+import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
+import com.rs.fer.response.ResetPasswordResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.util.DateUtil;
 import com.rs.fer.util.FERUtil;
@@ -187,6 +190,70 @@ public class FERServiceImpl implements FERService {
 			response.setStatusCode("001");
 			response.setStatus(HttpStatus.PRECONDITION_FAILED);
 			response.setErrorMessage("No expenses found for the given input..");
+		}
+
+		return response;
+	}
+
+	@Override
+	public ResetPasswordResponse resetPassword(int userid, String currentPassword, String newPassword) {
+		ResetPasswordResponse response = new ResetPasswordResponse();
+		Optional<User> userObj = userRepository.findById(userid);
+		if (userObj.isPresent()) {
+			User user = userObj.get();
+			if (user.getPassword().equals(currentPassword)) {
+				user.setPassword(newPassword);
+				userRepository.save(user);
+				response.setStatusCode("000");
+				response.setStatus(HttpStatus.OK);
+			} else {
+				response.setStatusCode("002");
+				response.setStatus(HttpStatus.PRECONDITION_FAILED);
+				response.setErrorMessage(
+						"Password which is on the account and input for current password are not matching.");
+			}
+
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("User is not found with the given input.");
+		}
+		return response;
+	}
+
+	@Override
+	public DeleteExpenseResponse deleteExpense(Integer expensseId) {
+		DeleteExpenseResponse response = new DeleteExpenseResponse();
+
+		Optional<Expense> expenseObj = expenseRepository.findById(expensseId);
+
+		if (expenseObj.isPresent()) {
+			Expense expense = expenseObj.get();
+			expenseRepository.delete(expense);
+			response.setStatusCode("000");
+			response.setStatus(HttpStatus.OK);
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("Invalid Input as expenseId is not present in expense table");
+		}
+
+		return response;
+
+	}
+
+	@Override
+	public GetUserResponse getUser(int userid) {
+		GetUserResponse response = new GetUserResponse();
+		Optional<User> userObj = userRepository.findById(userid);
+		if (userObj.isPresent()) {
+			response.setUser(userObj.get());
+			response.setStatusCode("000");
+			response.setStatus(HttpStatus.OK);
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("No User Found for the given userid");
 		}
 
 		return response;
