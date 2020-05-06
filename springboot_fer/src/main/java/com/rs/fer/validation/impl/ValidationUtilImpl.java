@@ -88,4 +88,9 @@ public class ValidationUtilImpl implements ValidationUtil {
 		return errorMessages;
 	}
 
+	@Override
+	public Set<String> validateDeleteExpenseRequest(int expenseId) {
+		return validateGetExpenseRequest(expenseId);
+	}
+
 }

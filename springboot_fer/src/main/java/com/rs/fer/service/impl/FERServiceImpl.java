@@ -15,6 +15,7 @@ import com.rs.fer.repository.ExpenseRepository;
 import com.rs.fer.repository.UserRepository;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.response.AddExpenseResponse;
+import com.rs.fer.response.DeleteExpenseResponse;
 import com.rs.fer.response.EditExpenseResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
@@ -207,7 +208,8 @@ public class FERServiceImpl implements FERService {
 			} else {
 				response.setStatusCode("002");
 				response.setStatus(HttpStatus.PRECONDITION_FAILED);
-				response.setErrorMessage("Password which is on the account and input for current password are not matching.");
+				response.setErrorMessage(
+						"Password which is on the account and input for current password are not matching.");
 			}
 
 		} else {
@@ -216,6 +218,27 @@ public class FERServiceImpl implements FERService {
 			response.setErrorMessage("User is not found with the given input.");
 		}
 		return response;
+	}
+
+	@Override
+	public DeleteExpenseResponse deleteExpense(Integer expensseId) {
+		DeleteExpenseResponse response = new DeleteExpenseResponse();
+
+		Optional<Expense> expenseObj = expenseRepository.findById(expensseId);
+
+		if (expenseObj.isPresent()) {
+			Expense expense = expenseObj.get();
+			expenseRepository.delete(expense);
+			response.setStatusCode("000");
+			response.setStatus(HttpStatus.OK);
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("Invalid Input as expenseId is not present in expense table");
+		}
+
+		return response;
+
 	}
 
 }

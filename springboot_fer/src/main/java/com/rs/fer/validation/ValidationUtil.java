@@ -14,4 +14,5 @@ public interface ValidationUtil {
 	Set<String> validateExpenseReportRequest(int userId, String type, String fromdate, String toDate);
 
 	Set<String> validateResetPasswordRequest(int userId, String currentPassword, String newPassword);
+	Set<String> validateDeleteExpenseRequest(int expenseId);
 }
