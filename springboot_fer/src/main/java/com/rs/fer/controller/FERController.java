@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rs.fer.model.Expense;
+import com.rs.fer.model.User;
 import com.rs.fer.repository.ExpenseRepository;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.response.AddExpenseResponse;
@@ -30,6 +32,7 @@ import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
 import com.rs.fer.response.ResetPasswordResponse;
+import com.rs.fer.response.UpdateUserResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
 
@@ -132,6 +135,16 @@ public class FERController {
 			return new GetUserResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
 		} else {
 			return ferService.getUser(id);
+		}
+	}
+	
+	@PutMapping("/user")
+	public UpdateUserResponse update(@RequestBody User user) {
+		Set<String> errorMessages = validationUtil.validateUpdateUserRequest(user);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new UpdateUserResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.updateUser(user);
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import com.rs.fer.model.User;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.validation.ValidationUtil;
 
@@ -96,6 +97,29 @@ public class ValidationUtilImpl implements ValidationUtil {
 	@Override
 	public Set<String> validateGetUserRequest(int userId) {
 		return validateGetExpensesRequest(userId);
+	}
+
+	@Override
+	public Set<String> validateUpdateUserRequest(User user) {
+
+		Set<String> errorMessages = new HashSet<String>();
+
+		addError(errorMessages, user.getFirstName(), "Please enter FirstName");
+		addError(errorMessages, user.getLastName(), "Please enter LastName");
+
+		addError(errorMessages, user.getEmail(), "Please enter Email");
+		addError(errorMessages, user.getMobile(), "Please enter Mobile");
+
+		if (user.getAddress() != null && !user.getAddress().getLineOne().isEmpty()) {
+			addError(errorMessages, user.getAddress().getCity(), "Please enter City");
+			addError(errorMessages, user.getAddress().getPostal(), "Please enter Postalcode");
+
+			addError(errorMessages, user.getAddress().getCountry(), "Please enter Country");
+			addError(errorMessages, user.getAddress().getState(), "Please enter State");
+		}
+
+		return errorMessages;
+
 	}
 
 }

@@ -23,4 +23,27 @@ public class FERUtil {
 		return user;
 
 	}
+	
+	public static User loadUpdateUserVOToUser(User user, User userdb) {
+		userdb.setFirstName(user.getFirstName());
+		userdb.setMiddleName(user.getMiddleName());
+		userdb.setLastName(user.getLastName());
+		userdb.setEmail(user.getEmail());
+		userdb.setMobile(user.getMobile());
+		
+		if(!user.getAddress().getLineOne().isEmpty())
+		{
+			userdb.getAddress().setLineOne(user.getAddress().getLineOne());
+			userdb.getAddress().setLineTwo(user.getAddress().getLineTwo());
+			userdb.getAddress().setCity(user.getAddress().getCity());
+			userdb.getAddress().setState(user.getAddress().getState());
+			userdb.getAddress().setPostal(user.getAddress().getPostal());
+			userdb.getAddress().setCountry(user.getAddress().getCountry());
+			
+		}
+		user.setUpdated(DateUtil.getCurrentDate("dd-M-yyyy hh:mm:ss"));
+		return userdb;
+
+	}
+	
 }

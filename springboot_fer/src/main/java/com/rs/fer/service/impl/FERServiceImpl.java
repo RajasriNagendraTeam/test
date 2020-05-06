@@ -1,6 +1,5 @@
 package com.rs.fer.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +23,7 @@ import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
 import com.rs.fer.response.ResetPasswordResponse;
+import com.rs.fer.response.UpdateUserResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.util.DateUtil;
 import com.rs.fer.util.FERUtil;
@@ -248,6 +248,28 @@ public class FERServiceImpl implements FERService {
 		Optional<User> userObj = userRepository.findById(userid);
 		if (userObj.isPresent()) {
 			response.setUser(userObj.get());
+			response.setStatusCode("000");
+			response.setStatus(HttpStatus.OK);
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("No User Found for the given userid");
+		}
+
+		return response;
+	}
+
+	@Override
+	public UpdateUserResponse updateUser(User user) {
+
+		UpdateUserResponse response = new UpdateUserResponse();
+		Optional<User> userObj = userRepository.findById(user.getId());
+		if (userObj.isPresent()) {
+			User userdb = userObj.get();
+			userdb = FERUtil.loadUpdateUserVOToUser(user, userdb);
+			userdb = userRepository.save(userdb);
+
+			response.setUser(userdb);
 			response.setStatusCode("000");
 			response.setStatus(HttpStatus.OK);
 		} else {

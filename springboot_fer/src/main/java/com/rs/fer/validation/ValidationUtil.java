@@ -2,6 +2,7 @@ package com.rs.fer.validation;
 
 import java.util.Set;
 
+import com.rs.fer.model.User;
 import com.rs.fer.request.RegistrationVO;
 
 public interface ValidationUtil {
@@ -18,4 +19,6 @@ public interface ValidationUtil {
 	Set<String> validateDeleteExpenseRequest(int expenseId);
 
 	Set<String> validateGetUserRequest(int userId);
+	
+	Set<String> validateUpdateUserRequest(User user);
 }
