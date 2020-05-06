@@ -77,4 +77,25 @@ public class ValidationUtilImpl implements ValidationUtil {
 
 	}
 
+	@Override
+	public Set<String> validateResetPasswordRequest(int userId, String currentPassword, String newPassword) {
+		Set<String> errorMessages = new HashSet<String>();
+
+		addError(errorMessages, userId, "Please enter userid");
+		addError(errorMessages, currentPassword, "Please enter currentPassword");
+		addError(errorMessages, newPassword, "Please enter newPassword");
+
+		return errorMessages;
+	}
+
+	@Override
+	public Set<String> validateDeleteExpenseRequest(int expenseId) {
+		return validateGetExpenseRequest(expenseId);
+	}
+
+	@Override
+	public Set<String> validateGetUserRequest(int userId) {
+		return validateGetExpensesRequest(userId);
+	}
+
 }

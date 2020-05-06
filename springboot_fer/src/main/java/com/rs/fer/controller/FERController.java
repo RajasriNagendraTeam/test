@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rs.fer.exception.ResourceNotFoundException;
 import com.rs.fer.model.Expense;
 import com.rs.fer.repository.ExpenseRepository;
 import com.rs.fer.request.RegistrationVO;
 import com.rs.fer.response.AddExpenseResponse;
+import com.rs.fer.response.DeleteExpenseResponse;
 import com.rs.fer.response.EditExpenseResponse;
+import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
+import com.rs.fer.response.GetUserResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
-import com.rs.fer.response.ExpenseReportResponse;
+import com.rs.fer.response.ResetPasswordResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
 
@@ -43,6 +44,8 @@ public class FERController {
 
 	@Autowired
 	ExpenseRepository expenseRepository;
+
+	private Integer expensseId;
 
 	@PostMapping("/register")
 	public RegistrationResponse userRegistration(@Valid @ModelAttribute RegistrationVO registrationVO) {
@@ -97,16 +100,39 @@ public class FERController {
 		if (!CollectionUtils.isEmpty(errorMessages)) {
 			return new ExpenseReportResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
 		} else {
-			return ferService.expenseReport(userId,type, fromDate, toDate);
+			return ferService.expenseReport(userId, type, fromDate, toDate);
 		}
 	}
 
 	@DeleteMapping("/expense/{expenseId}")
-	public ResponseEntity<?> deleteExpense(@PathVariable(value = "expenseId") int expenseId) {
-		Expense exp = expenseRepository.findById(expenseId)
-				.orElseThrow(() -> new ResourceNotFoundException("Expense", "expenseId", expenseId));
-		expenseRepository.delete(exp);
-		return ResponseEntity.ok().build();
+	public DeleteExpenseResponse deleteExpense(@PathVariable(value = "expenseId") int expenseId) {
+		Set<String> errorMessages = validationUtil.validateDeleteExpenseRequest(expenseId);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new DeleteExpenseResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.deleteExpense(expensseId);
+		}
+	}
+
+	@PutMapping("/reset/{userId}")
+	public ResetPasswordResponse reset(@PathVariable(value = "userId") int userId, @RequestParam String currentPassword,
+			@RequestParam String newPassword) {
+		Set<String> errorMessages = validationUtil.validateResetPasswordRequest(userId, currentPassword, newPassword);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new ResetPasswordResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.resetPassword(userId, currentPassword, newPassword);
+		}
+	}
+
+	@GetMapping("/user/{id}")
+	public GetUserResponse getUser(@PathVariable("id") Integer id) {
+		Set<String> errorMessages = validationUtil.validateGetUserRequest(id);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new GetUserResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.getUser(id);
+		}
 	}
 
 	/*
