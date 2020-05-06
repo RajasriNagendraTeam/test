@@ -21,6 +21,7 @@ import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
+import com.rs.fer.response.ResetPasswordResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.util.DateUtil;
 import com.rs.fer.util.FERUtil;
@@ -189,6 +190,31 @@ public class FERServiceImpl implements FERService {
 			response.setErrorMessage("No expenses found for the given input..");
 		}
 
+		return response;
+	}
+
+	@Override
+	public ResetPasswordResponse resetPassword(int userid, String currentPassword, String newPassword) {
+		ResetPasswordResponse response = new ResetPasswordResponse();
+		Optional<User> userObj = userRepository.findById(userid);
+		if (userObj.isPresent()) {
+			User user = userObj.get();
+			if (user.getPassword().equals(currentPassword)) {
+				user.setPassword(newPassword);
+				userRepository.save(user);
+				response.setStatusCode("000");
+				response.setStatus(HttpStatus.OK);
+			} else {
+				response.setStatusCode("002");
+				response.setStatus(HttpStatus.PRECONDITION_FAILED);
+				response.setErrorMessage("Password which is on the account and input for current password are not matching.");
+			}
+
+		} else {
+			response.setStatusCode("001");
+			response.setStatus(HttpStatus.PRECONDITION_FAILED);
+			response.setErrorMessage("User is not found with the given input.");
+		}
 		return response;
 	}
 

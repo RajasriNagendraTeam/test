@@ -28,6 +28,7 @@ import com.rs.fer.response.GetExpenseResponse;
 import com.rs.fer.response.GetExpensesResponse;
 import com.rs.fer.response.LoginResponse;
 import com.rs.fer.response.RegistrationResponse;
+import com.rs.fer.response.ResetPasswordResponse;
 import com.rs.fer.response.ExpenseReportResponse;
 import com.rs.fer.service.FERService;
 import com.rs.fer.validation.ValidationUtil;
@@ -97,7 +98,7 @@ public class FERController {
 		if (!CollectionUtils.isEmpty(errorMessages)) {
 			return new ExpenseReportResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
 		} else {
-			return ferService.expenseReport(userId,type, fromDate, toDate);
+			return ferService.expenseReport(userId, type, fromDate, toDate);
 		}
 	}
 
@@ -107,6 +108,17 @@ public class FERController {
 				.orElseThrow(() -> new ResourceNotFoundException("Expense", "expenseId", expenseId));
 		expenseRepository.delete(exp);
 		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/reset/{userId}")
+	public ResetPasswordResponse reset(@PathVariable(value = "userId") int userId, @RequestParam String currentPassword,
+			@RequestParam String newPassword) {
+		Set<String> errorMessages = validationUtil.validateResetPasswordRequest(userId, currentPassword, newPassword);
+		if (!CollectionUtils.isEmpty(errorMessages)) {
+			return new ResetPasswordResponse(HttpStatus.PRECONDITION_FAILED, "999", errorMessages);
+		} else {
+			return ferService.resetPassword(userId, currentPassword, newPassword);
+		}
 	}
 
 	/*
